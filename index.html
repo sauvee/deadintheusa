@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Dead in the USA</title>
+
+	<link rel="shortcut icon" id="favicon" href="favicon.png"> 
+	<link href='onepage-scroll.css' rel='stylesheet' type='text/css'>
+	<link href='styles.css' rel='stylesheet' type='text/css'>
+	<link href='css/demo_table.css' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="js/jquery.onepage-scroll.js"></script>
+	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	    <!-- Highcharts-->
+	<script src="http://code.highcharts.com/highcharts.js"></script
+	<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    
+	<script>
+
+	  var year = new Array;
+	  var totalPop = new Array;
+	  var totalMale = new Array;
+	  var totalFemale = new Array;
+	  var causes = new Array;
+	  var leadingTotal = new Array;
+	  var leadingMale = new Array;
+	  var leadingFemale = new Array;
+	  var state = new Array;
+	  var totalDeath = new Array;
+	  var heartDiseases = new Array;
+	  var cancer = new Array;
+	  var cerebrovascular = new Array;
+	  var respiratory = new Array;
+	  var alzheimer = new Array;
+	  var diabetes = new Array;
+	  var flu = new Array;	  
+	  var nephritis = new Array;
+	  var suicide = new Array;
+	  var firearms = new Array;
+	  var liver = new Array;
+	  var homicide = new Array;
+	  var accidents = new Array;
+	  
+	  
+//document ready
+    $(document).ready(function(){
+
+// scrolling plugin
+    $(".main").onepage_scroll({
+        sectionContainer: "section",
+        responsiveFallback: 600,
+        loop: true
+      });
+      
+ //loadXML     
+      startLoadXml()
+
+    function startLoadXml() {
+    $.ajax({
+    type: "GET",
+    url: "data/lifeexpectancy.xml",
+    dataType: "xml",
+    success: parseXml
+  });
+}
+
+
+//ParseXML
+function parseXml(xml){
+   
+    $(xml).find("Row").each(function(index)
+{
+	year.push(parseInt($(this).attr("A")))
+	totalPop.push(parseInt($(this).attr("B")));
+	totalMale.push(parseInt($(this).attr("C")));
+	totalFemale.push(parseInt($(this).attr("D")));	
+  })    
+    buildChart1();
+}
+
+//buildChart1
+function buildChart1(){
+  
+
+//create the chart
+
+     $('#lifeexpectancy').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Life Expectancy in the USA, 1980-2010',
+		style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+            },
+            subtitle: {
+	      style:
+	      {
+                color: 'black',
+                fontFamily: 'playfairitalic'
+            },
+                text: '<a href="http://www.cdc.gov/nchs/data/hus/2011/022.pdf">Source: Center for Disease Control and Prevention</a> '
+            },
+            xAxis: {
+                categories: year,
+				    style :
+		    {
+		      color: '#3A81A1',
+		      fontFamily:"missiongothic",
+		    }
+            },
+            yAxis: {
+                title: {
+                    text: 'Life expectancy at birth (age)',
+		    style :
+		    {
+		      color: '#3A81A1',
+		      fontFamily:"missiongothic",
+		    }
+                }
+            },
+            tooltip: {
+                enabled: true,
+                formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +': '+ this.y +' years old';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: false,
+                        style: {
+                            textShadow: '0 0 3px white, 0 0 3px white'
+                        }
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series:
+	    [{
+		color: '#9a4040',
+                name: 'Total population',
+                data: totalPop
+		
+            }, {
+		color: '#3A81A1',
+                name: 'Men',
+                data: totalMale
+            }, {
+		color: '#F89A97',
+		name: 'Women',
+                data: totalFemale
+            },
+	    ]
+        });
+
+}
+//buildChart2
+
+ //loadXML     
+    $.ajax({
+      
+    type: "GET",
+    url: "data/leadingcauses.xml",
+    dataType: "xml",
+    success: parseXml2
+  });
+
+//ParseXML
+
+function parseXml2(xml){
+
+    $(xml).find("Row").each(function(index)
+{
+	causes.push($(this).attr("A"))
+	leadingTotal.push(parseInt($(this).attr("B")));
+	leadingMale.push(parseInt($(this).attr("C")));
+	leadingFemale.push(parseInt($(this).attr("D")));	
+  })    
+    buildChart2();
+}
+
+//buildChart1
+function buildChart2(){
+
+
+//create the chart
+$(function () {
+
+        $('#leadingcauses').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Leading causes of death in the USA, 2010',
+				style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+            },
+            subtitle: {
+	      style:
+	      {
+                color: 'black',
+                fontFamily: 'playfairitalic'
+            },
+                text: '<a href="http://www.cdc.gov/nchs/fastats/lcod.htm">Source: Centers for Disease Control and Prevention</a>'
+            },
+            xAxis: {
+                categories: causes,
+				    style :
+		    {
+		      color: '#3A81A1',
+		      fontFamily:"missiongothic",
+		    }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Death rates (%)',
+		    		    style :
+		    {
+		      color: '#3A81A1',
+		      fontFamily:"missiongothic",
+		    }
+		    
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+
+            },
+            series:
+	    
+	    [
+	     {
+
+		color: '#3A81A1',
+                name: 'Total',
+                data: leadingTotal
+    
+            }, {
+	      color: '#CBDFE7',
+                name: 'Men',
+                data: leadingMale
+    
+            }, {
+	      color: '#F89A97',
+                name: 'Women',
+                data: leadingFemale
+    
+            }, ]
+        });
+    });
+    
+
+}
+});
+//buildChart3
+
+//buildTable
+
+//Builds table data
+	//loadXML     
+    $.ajax({
+    type: "GET",
+    url: "data/table.xml",
+    dataType: "xml",
+    success: parseXml4
+  });
+
+//ParseXML
+
+function parseXml4(xml){
+  var stateCauses = new Array;
+    
+    var aaData = new Array;
+    $(xml).find("Row").each(function(index)
+{
+      var eachRow = new Array;
+      eachRow.push($(this).attr("A"), //State
+      parseInt($(this).attr("B")), //Total deaths
+      parseInt($(this).attr("C")), //Heart
+      parseInt($(this).attr("D")), //cancer
+      parseInt($(this).attr("E")), //cerebrovascular
+      parseInt($(this).attr("F")), //respiratory
+      parseInt($(this).attr("G")), // accidents
+      parseInt($(this).attr("I")), //alzheimer
+      parseInt($(this).attr("J")),// diabetes
+      parseInt($(this).attr("K")), //flu
+      parseInt($(this).attr("L")), //nephritis
+      parseInt($(this).attr("M")), //suicide
+      parseInt($(this).attr("N")), // firearms
+      parseInt($(this).attr("P"))  // homicide
+      );
+      aaData.push(eachRow);
+  })
+    
+
+	$('#dataTable').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
+	$('#dataTable').dataTable( {
+	      "bSort": true,
+
+		"aaData": aaData,
+		"aoColumns": [
+			{ "sTitle": "State" },
+			{ "sTitle": "Total" },
+			{ "sTitle": "Heart <br> diseases" },
+			{ "sTitle": "cancer"},
+			{ "sTitle": "Cerebro <br>vascular diseases"},
+			{ "sTitle": "Respiratory <br> diseases"},
+			{ "sTitle": "Accidents"},
+			{ "sTitle": "Alzheimer"},
+			{ "sTitle": "Diabetes" },
+			{ "sTitle": "Influenza <br> and <br>pneumonia" },
+			{ "sTitle": "Nephritis"},
+			{ "sTitle": "Suicide"},
+			{ "sTitle": "Firearms"},
+			{ "sTitle": "Homicides"},			
+			
+		]
+	} );	
+}
+    
+
+
+  //Pie charts
+     //Chart #1: No exercise
+	$(function () {
+	  $('#noExercise').highcharts({
+	      chart: {
+	      plotBackgroundColor: null,
+	      plotBorderWidth: null,
+	      plotShadow: false,
+	      backgroundColor:'rgba(255, 255, 255, 0)',
+	      spacingTop: 20,
+	      spacingBottom:0,
+	      marginTop: 0,
+	      marginRight:0,
+	    },
+	    title: {
+	      
+	      text: 'People who do not exercise, 2012',
+	      style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+	     },
+	     tooltip: {
+	          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	      },
+	      plotOptions: {
+	          pie: {
+		    size:170,
+	             allowPointSelect: true,
+	              cursor: 'pointer',
+		      dataLabels: {
+                    enabled: true,
+                    formatter: function() {
+                        return Math.round(this.percentage*100)/100 + ' %';
+                    },
+                    distance: -30,
+                    color:'white'
+		      
+	              }
+	          }
+	      },
+	      credits: {
+	  enabled: false
+        },
+	      series: [{
+	          type: 'pie',
+	          name: 'Regular exercise',
+		  colors: [
+		  '#CBDFE7', 
+		  '#3A81A1'],
+	          data: [
+		    
+	              ['Yes',   21.0],
+	              ['No',       79.0],
+	          ]
+	      }]
+	  });
+      });
+    
+     //Chart #2: obesity
+	$(function () {
+	  $('#obesity').highcharts({
+	      chart: {
+	      plotBackgroundColor: null,
+	      plotBorderWidth: null,
+	      plotShadow: false,
+	      backgroundColor:'rgba(255, 255, 255, 0)',
+	      spacingTop: 20, 
+	      marginTop: 0,
+
+	    },
+	    	      credits: {
+	  enabled: false
+        },
+	    title: {
+		 text: 'Obese people in the USA, 2012',
+		 		style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+	     },
+	     tooltip: {
+	          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	      },
+	      plotOptions: {
+	          pie: {
+		    size:170,
+	             allowPointSelect: true,
+	              cursor: 'pointer',
+		    dataLabels: {
+	                                 enabled: true,
+                    formatter: function() {
+                        return Math.round(this.percentage*100)/100 + ' %';
+                    },
+                    distance: -30,
+                    color:'white'
+	              }
+	          }
+	      },
+	      series: [{
+	          type: 'pie',
+	          name: 'Obese',
+		  colors: [
+		  '#CBDFE7', 
+		  '#3A81A1'],
+	          data: [
+	              ['Yes',   35.7],
+	              ['No',       64.3],
+	          ]
+	      }]
+	  });
+      });
+         //Chart #3: High Cholesterol
+	$(function () {
+	  $('#highCholesterol').highcharts({
+	      chart: {
+	      plotBackgroundColor: null,
+	      plotBorderWidth: null,
+	      plotShadow: false,
+	      backgroundColor:'rgba(255, 255, 255, 0)',
+	      spacingTop: 20, 
+	      marginTop: 0,
+	      spacingBottom:0,
+
+	    },
+	    	      credits: {
+	  enabled: false
+        },
+	    title: {
+		 text: 'People with high cholesterol in the USA, 2012',
+		 		style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+	     },
+	     tooltip: {
+	          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	      },
+	      plotOptions: {
+	          pie: {
+		    size:170,
+	             allowPointSelect: true,
+	              cursor: 'pointer',
+		      dataLabels: {
+                    enabled: true,
+                    formatter: function() {
+                        return Math.round(this.percentage*100)/100 + ' %';
+                    },
+                    distance: -30,
+                    color:'white'
+	              }
+	          }
+	      },
+	      series: [{
+	          type: 'pie',
+		  colors: [
+		  '#CBDFE7', 
+		  '#3A81A1'],		  
+	          name: 'High cholesterol',
+	          data: [
+	              ['Yes',   26.7],
+	              ['No',       73.3],
+
+	          ]
+	      }]
+	  });
+      });
+         //Chart #4: Smokers
+	$(function () {
+	  $('#smokers').highcharts({
+	      chart: {
+	      plotBackgroundColor: null,
+	      plotBorderWidth: null,
+	      plotShadow: false,
+	      backgroundColor:'rgba(255, 255, 255, 0)',
+	      spacingTop: 20, 
+	      marginTop: 10,
+
+	    },
+	    	      credits: {
+	  enabled: false
+        },
+	    title: {
+		 text: 'Smokers in the USA, 2012',
+		 		style:
+	      {
+                color: 'black',
+                fontFamily: 'interstatebc'
+            }
+	     },
+	     tooltip: {
+	          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	      },
+	      plotOptions: {
+	          pie: {
+		    size:170,
+	             allowPointSelect: true,
+	              cursor: 'pointer',
+		      dataLabels: {
+                    enabled: true,
+                    formatter: function() {
+                        return Math.round(this.percentage*100)/100 + ' %';
+                    },
+                    distance: -30,
+                    color:'white'
+	              }
+	          }
+	      },
+	      series: [{
+	          type: 'pie',
+	          name: 'Smokers',
+		  colors: [
+		  '#CBDFE7', 
+		  '#3A81A1'],
+	          data: [
+	              ['Yes',   19.3],
+	              ['No',       80.7],
+
+	          ]
+	      }]
+	  });
+      });
+    
+</script>
+
+
+</head>
+
+<body>
+  <div class="wrapper">
+	  <div class="main">
+	    
+      <section class="intro">
+        <div class="page_container">
+          <h1 class="maintitle">DEAD IN THE USA</h1>
+	      <p class="subintro">What kills Americans, and most of all, can we prevent deaths?</p>
+	      <p>If there is one thing we all go through at some point, it is death. <br>But how exactly does death affect the USA? <br>How, when and why do Americans die?</p>
+    
+ 
+	</div>
+      </section>
+	    
+	    <section class="page2">
+
+	  <div class="page_container">
+          <h2>LIFE EXPECTANCY </h2>
+
+	  <p>Life expectancy has increased significantly during the XXth Century. <br>In 1900, people could expect to live around 47 year. Since then, life expectancy has doubled, and reached 78 years in 2010. <br> However, as you can see, women still live an average of 5 years older than men.</p>
+	  <div id="lifeexpectancy" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	      </div>
+      </section>
+	    
+	    <section class="page3">
+	      <div class="page_container">
+          <h2>THE 10 LEADING CAUSES OF DEATH</h2>
+
+	  <p>We are constantly scared of homicides, plane or train crashes or other spectacular reasons that lead to our death. <br>In 2010, homicide dropped from among the 15 leading causes of death, for the first time since 1965. <br>What kills most people is actually diseases, of heart, lungs, brain, and cancers.</p>
+	  <div id="leadingcauses" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+          <div class="btns">
+
+  	      </div>
+  	    </div>
+      </section>
+	    <section class="page2">
+	      <div class="page_container">
+          <h2>UNHEALTHY HABITS</h2>
+	  <p>If diseases are the main reason of death in the USA, looking at our health might explain a lot.</p>
+	      <p><a class="source" href="http://www.cdc.gov/nchs/hus/healthrisk.htm">Source: Centers for Disease Control and Prevention</a></p>
+	    <div class="pieleft"><div id="noExercise"></div></div>
+	    <div class="pieright"><div id="obesity"></div></div>
+	    <div class="pieleft"><div id="highCholesterol"></div></div>
+	    <div class="pieright"><div id="smokers" ></div></div>
+	      </div>
+      </section>
+	    
+	    <section class="page3">
+	      <div class="page_container">
+	  <h2>DEATH ACROSS THE STATES</h2>    
+	  <p>Among the 50 American States, not every one is equal facing death.<br>Find out what causes the more deaths in your State.</p>
+	  <p><a class="source" href="http://www.cdc.gov/nchs/nvss/mortality/lcwk9.htm">Source: Centers for Disease Control and Prevention</a></p>	 
+	  <p class="titletable">Table: Number of deaths for 100,000 people</p>
+	  <table id="dataTable"></table>
+
+  	    </div>
+      </section>
+
+    
+  	    </div>
+      </section>
+    </div>
+ </div>
+</body>
+</html>
