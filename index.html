@@ -6,7 +6,7 @@
 
 	<link rel="shortcut icon" id="favicon" href="favicon.png"> 
 	<link href='css/onepage-scroll.css' rel='stylesheet' type='text/css'>
-	<link href='css/styles.css' rel='stylesheet' type='text/css'>
+	<link href='styles.css' rel='stylesheet' type='text/css'>
 	<link href='css/demo_table.css' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="js/jquery.onepage-scroll.js"></script>
@@ -349,10 +349,8 @@ function parseXml4(xml){
 	      plotBorderWidth: null,
 	      plotShadow: false,
 	      backgroundColor:'rgba(255, 255, 255, 0)',
-	      spacingTop: 20,
-	      spacingBottom:0,
-	      marginTop: 0,
-	      marginRight:0,
+	      spacingTop: 30,
+	      marginTop: 20,
 	    },
 	    title: {
 	      
@@ -408,9 +406,8 @@ function parseXml4(xml){
 	      plotBorderWidth: null,
 	      plotShadow: false,
 	      backgroundColor:'rgba(255, 255, 255, 0)',
-	      spacingTop: 20, 
-	      marginTop: 0,
-
+	      spacingTop: 30,
+	      marginTop: 20,
 	    },
 	    	      credits: {
 	  enabled: false
@@ -462,10 +459,8 @@ function parseXml4(xml){
 	      plotBorderWidth: null,
 	      plotShadow: false,
 	      backgroundColor:'rgba(255, 255, 255, 0)',
-	      spacingTop: 20, 
-	      marginTop: 0,
-	      spacingBottom:0,
-
+	      spacingTop: 30,
+	      marginTop: 20,
 	    },
 	    	      credits: {
 	  enabled: false
@@ -505,7 +500,6 @@ function parseXml4(xml){
 	          data: [
 	              ['Yes',   26.7],
 	              ['No',       73.3],
-
 	          ]
 	      }]
 	  });
@@ -517,8 +511,8 @@ function parseXml4(xml){
 	      plotBackgroundColor: null,
 	      plotBorderWidth: null,
 	      plotShadow: false,
+	      spacingTop: 30,
 	      backgroundColor:'rgba(255, 255, 255, 0)',
-	      spacingTop: 20, 
 	      marginTop: 10,
 
 	    },
@@ -613,17 +607,17 @@ function parseXml4(xml){
           <h2>UNHEALTHY HABITS</h2>
 	  <p>If diseases are the main reason of death in the USA, looking at our health might explain a lot.</p>
 	      <p><a class="source" href="http://www.cdc.gov/nchs/hus/healthrisk.htm">Source: Centers for Disease Control and Prevention</a></p>
-	    <div class="pieleft"><div id="noExercise"></div></div>
-	    <div class="pieright"><div id="obesity"></div></div>
-	    <div class="pieleft"><div id="highCholesterol"></div></div>
-	    <div class="pieright"><div id="smokers" ></div></div>
+	     <div class="pieleft" id="noExercise"></div>
+	    <div class="pieright" id="obesity"></div>
+	    <div class="pieleft" id="highCholesterol"></div>
+	    <div class="pieright" id="smokers" ></div>
 	      </div>
       </section>
 	    
 	    <section class="page3">
 	      <div class="page_container">
 	  <h2>DEATH ACROSS THE STATES</h2>    
-	  <p>Among the 50 American States, not every one is equal facing death.<br>Find out what causes the more deaths in your State.</p>
+	  <p>Among the 50 American States, not every one is equal facing death.<br>Find out what causes the biggest number of deaths in your State.</p>
 	  <p><a class="source" href="http://www.cdc.gov/nchs/nvss/mortality/lcwk9.htm">Source: Centers for Disease Control and Prevention</a></p>	 
 	  <p class="titletable">Table: Number of deaths for 100,000 people</p>
 	  <table id="dataTable"></table>
